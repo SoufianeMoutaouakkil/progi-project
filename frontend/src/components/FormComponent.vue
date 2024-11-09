@@ -1,15 +1,15 @@
 <template>
     <form @submit.prevent="submitForm">
         <div>
-            <label for="number">Number:</label>
+            <label for="price">Price:</label>
             <input
-                type="number"
-                v-model="number"
+                type="price"
+                v-model="price"
                 required
-                :class="{ invalid: numberError }"
+                :class="{ invalid: priceError }"
             />
-            <span v-if="numberError" class="error">
-                Number must be greater than 0
+            <span v-if="priceError" class="error">
+                Price must be greater than 0
             </span>
         </div>
 
@@ -27,30 +27,48 @@
 </template>
 
 <script>
+import vehicleApi from "../apis/vehicle";
+
 export default {
     data() {
         return {
-            number: "",
+            price: "",
             option: "",
+            loading: false,
+            apiResponse: null,
         };
     },
     computed: {
-        isValidNumber() {
-            return this.number > 0;
+        isValidPrice() {
+            return this.price > 0;
         },
         isFormValid() {
-            return this.isValidNumber && this.option;
+            return this.isValidPrice && this.option;
         },
-        numberError() {
-            return !this.isValidNumber && this.number !== "";
+        priceError() {
+            return !this.isValidPrice && this.price !== "";
         },
     },
     methods: {
         submitForm() {
-            this.$emit("on-api-res", {
-                number: this.number,
-                option: this.option,
-            });
+            if (this.isFormValid) {
+                this.fetchVehicleCost();
+            }
+        },
+        async fetchVehicleCost() {
+            this.loading = true;
+
+            try {
+                this.apiResponse = await vehicleApi.cost({
+                    price: this.price,
+                    option: this.option,
+                });
+                this.$emit("on-api-res", this.apiResponse);
+            } catch (error) {
+                console.error("Error fetching vehicle cost:", error);
+            } finally {
+                this.loading = false;
+            }
         },
     },
 };

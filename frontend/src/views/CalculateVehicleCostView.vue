@@ -2,7 +2,7 @@
     <div>
         <h1>Calculate Vehicle Cost</h1>
         <FormComponent @on-api-res="setApiResult" />
-        <ResultComponent :result="apiResult" v-if="apiResult" />
+        <ResultComponent :result="apiResult" />
     </div>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     },
     methods: {
         setApiResult(data) {
+            console.log("Setting API result:", data);
             this.apiResult = data;
         },
     },
