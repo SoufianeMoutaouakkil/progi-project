@@ -6,6 +6,7 @@
 parameters:
     fees_config:
         basic_buyer_fee:
+            enabled: true # default value. just to show how to use it
             fee: 0.10
             min:
                 common: 10

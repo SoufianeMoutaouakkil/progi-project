@@ -22,7 +22,7 @@ class VehicleController extends AbstractController
         $error = null;
         if (!$type || !$basePrice) {
             $error = 'Base price and type are required';
-        } elseif (!in_array($type, [Vehicle::TYPE_COMMON, Vehicle::TYPE_LUXURY], true)) {
+        } elseif (!Vehicle::isValidVehicleType($type)) {
             $error = 'Invalid vehicle type';
         } elseif (!is_numeric($basePrice) || $basePrice < 0) {
             $error = 'Invalid base price';

@@ -24,6 +24,11 @@ class Vehicle implements JsonSerializable
         $this->setVehicleType($vehicleType);
     }
 
+    public static function isValidVehicleType(string $vehicleType): bool
+    {
+        return in_array($vehicleType, [self::TYPE_COMMON, self::TYPE_LUXURY], true);
+    }
+
     private function setBasePrice(float $basePrice): void
     {
         if ($basePrice < 0) {
@@ -40,7 +45,7 @@ class Vehicle implements JsonSerializable
 
     private function setVehicleType(string $vehicleType): void
     {
-        if (!in_array($vehicleType, [self::TYPE_COMMON, self::TYPE_LUXURY], true)) {
+        if (!self::isValidVehicleType($vehicleType)) {
             throw new BusinessLogicException('Invalid vehicle type');
         }
 
