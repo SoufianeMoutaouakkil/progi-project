@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Service\VehicleService;
 use App\Entity\Vehicle;
+use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class VehicleController extends AbstractController
 {
@@ -27,9 +29,8 @@ class VehicleController extends AbstractController
         }
 
         if ($error) {
-            return new JsonResponse(['error' => $error], 400);
+            throw new HttpException(400, $error);
         }
-
         return new JsonResponse($vehicleService->getVehicleWithCost((int) $basePrice, $type));
     }
 }
