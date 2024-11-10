@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
-class Vehicle implements \JsonSerializable
+use App\Exception\BusinessLogicException;
+use JsonSerializable;
+
+class Vehicle implements JsonSerializable
 {
     public const TYPE_COMMON = 'common';
     public const TYPE_LUXURY = 'luxury';
@@ -10,25 +13,38 @@ class Vehicle implements \JsonSerializable
     private float $basePrice;
     private string $vehicleType;
 
-    private float $basicBuyerFee;
-    private float $sellerSpecialFee;
-    private float $associationFee;
-    private float $storageFee;
+    private float $basicBuyerFee = 0.0;
+    private float $sellerSpecialFee = 0.0;
+    private float $associationFee = 0.0;
+    private float $storageFee = 0.0;
 
     public function __construct(float $basePrice, string $vehicleType)
     {
-        $this->basePrice = $basePrice;
-        $this->vehicleType = $vehicleType;
+        $this->setBasePrice($basePrice);
+        $this->setVehicleType($vehicleType);
+    }
 
-        $this->basicBuyerFee = 0.0;
-        $this->sellerSpecialFee = 0.0;
-        $this->associationFee = 0.0;
-        $this->storageFee = 0.0;
+    private function setBasePrice(float $basePrice): void
+    {
+        if ($basePrice < 0) {
+            throw new BusinessLogicException('Base price must be a positive number');
+        }
+
+        $this->basePrice = round($basePrice, 2);
     }
 
     public function getBasePrice(): float
     {
         return $this->basePrice;
+    }
+
+    private function setVehicleType(string $vehicleType): void
+    {
+        if (!in_array($vehicleType, [self::TYPE_COMMON, self::TYPE_LUXURY], true)) {
+            throw new BusinessLogicException('Invalid vehicle type');
+        }
+
+        $this->vehicleType = $vehicleType;
     }
 
     public function getVehicleType(): string
