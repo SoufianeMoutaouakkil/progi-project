@@ -1,0 +1,48 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    fees_config:
+        basic_buyer_fee:
+            fee: 0.10
+            min:
+                common: 10
+                luxury: 25
+            max:
+                common: 50
+                luxury: 250
+        seller_special_fee:
+            fee:
+                common: 0.02
+                luxury: 0.04
+        association_fee:
+            steps:
+                - { min: 1, max: 500, fee: 5 }
+                - { min: 501, max: 1000, fee: 10 }
+                - { min: 1001, max: 3000, fee: 15 }
+                - { min: 3001, max: null, fee: 20 }
+        storage_fee:
+            fee: 100
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: "../src/"
+        exclude:
+            - "../src/DependencyInjection/"
+            - "../src/Entity/"
+            - "../src/Kernel.php"
+    App\Service\ConfigLoaderService:
+        arguments:
+            $feesConfig: "%fees_config%"
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
