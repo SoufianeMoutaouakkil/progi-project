@@ -16,7 +16,7 @@ class VehicleService
     {
         $this->configLoaderService = $configLoaderService;
     }
-    public function getVehicleWithCost(float $basePrice, String $type): Vehicle
+    public function getVehicleWithCosts(float $basePrice, String $type): Vehicle
     {
         $vehicle = new Vehicle($basePrice, $type);
 

@@ -31,6 +31,6 @@ class VehicleController extends AbstractController
         if ($error) {
             throw new HttpException(400, $error);
         }
-        return new JsonResponse($vehicleService->getVehicleWithCost( $basePrice, $type));
+        return new JsonResponse($vehicleService->getVehicleWithCosts( $basePrice, $type));
     }
 }
