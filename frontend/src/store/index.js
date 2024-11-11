@@ -3,7 +3,7 @@ import api from "../api/api";
 
 export default createStore({
     state: {
-        formData: { number: "", option: "" },
+        formData: { number: "", vehicleType: "" },
         apiResponse: null,
     },
     mutations: {

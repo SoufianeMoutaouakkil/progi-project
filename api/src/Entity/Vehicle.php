@@ -110,16 +110,16 @@ class Vehicle implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'base_price' => $this->basePrice,
-            'vehicle_type' => $this->vehicleType,
+            'basePrice' => $this->basePrice,
+            'vehicleType' => $this->vehicleType,
             'fees' => [
-                'basic_buyer_fee' => $this->basicBuyerFee,
-                'seller_special_fee' => $this->sellerSpecialFee,
-                'association_fee' => $this->associationFee,
-                'storage_fee' => $this->storageFee
+                'basicBuyerFee' => $this->basicBuyerFee,
+                'sellerSpecialFee' => $this->sellerSpecialFee,
+                'associationFee' => $this->associationFee,
+                'storageFee' => $this->storageFee
             ],
-            'total_fees' => $this->getTotalFees(),
-            'total_price' => $this->getTotalPrice()
+            'totalFees' => $this->getTotalFees(),
+            'totalPrice' => $this->getTotalPrice()
         ];
     }
 }

@@ -1,12 +1,12 @@
-export function getVehicleCost(number, option) {
+export function getVehicleCost(basePrice, vehicleType) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (number <= 0 || !option) {
+            if (basePrice <= 0 || !vehicleType) {
                 reject("Invalid input"); // Simulate an error
             } else {
                 resolve({
-                    cost: number * (option === "luxury" ? 2 : 1),
-                    option: option,
+                    cost: basePrice * (vehicleType === "luxury" ? 2 : 1),
+                    vehicleType: vehicleType,
                 });
             }
         }, 1500); // Simulated delay of 1.5 seconds

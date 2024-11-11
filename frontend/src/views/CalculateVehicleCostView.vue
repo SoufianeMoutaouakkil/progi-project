@@ -22,7 +22,6 @@ export default {
     },
     methods: {
         setApiResult(data) {
-            console.log("Setting API result:", data);
             this.apiResult = data;
         },
     },

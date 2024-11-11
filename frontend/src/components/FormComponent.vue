@@ -1,10 +1,10 @@
 <template>
     <form @submit.prevent="submitForm">
         <div>
-            <label for="price">Price:</label>
+            <label for="basePrice">Base Price:</label>
             <input
-                type="price"
-                v-model="price"
+                type="number"
+                v-model="basePrice"
                 required
                 :class="{ invalid: priceError }"
             />
@@ -14,9 +14,9 @@
         </div>
 
         <div>
-            <label for="option">Option:</label>
-            <select v-model="option" required>
-                <option disabled value="">Select an option</option>
+            <label for="vehicleType">Vehicle Type:</label>
+            <select v-model="vehicleType" required>
+                <option disabled value="">Select the Vehicle Type</option>
                 <option value="common">Common</option>
                 <option value="luxury">Luxury</option>
             </select>
@@ -32,21 +32,21 @@ import vehicleApi from "../apis/vehicle";
 export default {
     data() {
         return {
-            price: "",
-            option: "",
+            basePrice: "",
+            vehicleType: "",
             loading: false,
             apiResponse: null,
         };
     },
     computed: {
         isValidPrice() {
-            return this.price > 0;
+            return this.basePrice > 0;
         },
         isFormValid() {
-            return this.isValidPrice && this.option;
+            return this.isValidPrice && this.vehicleType;
         },
         priceError() {
-            return !this.isValidPrice && this.price !== "";
+            return !this.isValidPrice && this.basePrice !== "";
         },
     },
     methods: {
@@ -60,8 +60,8 @@ export default {
 
             try {
                 this.apiResponse = await vehicleApi.cost({
-                    price: this.price,
-                    option: this.option,
+                    base_price: this.basePrice,
+                    vehicle_type: this.vehicleType,
                 });
                 this.$emit("on-api-res", this.apiResponse);
             } catch (error) {
