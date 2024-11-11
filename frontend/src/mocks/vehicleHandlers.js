@@ -1,16 +1,16 @@
 import { http, HttpResponse } from "msw";
 import vehicleServiceMock from "./vehicleServiceMock";
 
-const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
-const vehicleServicePath = `${apiUrl}/api/vehicles`;
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+const vehicleServicePath = `${apiUrl}/vehicle`;
 
 export default [
     http.get(`${vehicleServicePath}/cost`, ({ request }) => {
         const url = new URL(request.url);
-        const price = url.searchParams.get("price");
-        const option = url.searchParams.get("option");
+        const basePrice = url.searchParams.get("base_price");
+        const vehicleType = url.searchParams.get("vehicle_type");
 
-        const costs = vehicleServiceMock.cost({ price: Number(price), option });
+        const costs = vehicleServiceMock.cost({ basePrice: Number(basePrice), vehicleType });
 
         return new HttpResponse(
             JSON.stringify(costs),

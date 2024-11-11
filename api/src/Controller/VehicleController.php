@@ -17,7 +17,7 @@ class VehicleController extends AbstractController
     #[Route('/api/vehicle/cost', name: 'app_vehicle')]
     public function cost(VehicleService $vehicleService, Request $request): JsonResponse
     {
-        $type = strtolower($request->query->get('type') ?? '');
+        $type = strtolower($request->query->get('vehicle_type') ?? '');
         $basePrice = $request->query->get('base_price');
         $error = null;
         if (!$type || !$basePrice) {

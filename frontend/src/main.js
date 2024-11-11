@@ -5,7 +5,13 @@ import router from "./router";
 
 import mockServer from "./mocks/mockServer"; // Import the mock server
 
-// Start the mock service worker (this will intercept API calls in development)
-mockServer.start();
+const isMock =
+    process.env.NODE_ENV === "development" &&
+    import.meta.env.VITE_MOCK_MODE === "true";
+
+if (isMock) {
+    console.log("Starting the mock server");
+    mockServer.start();
+}
 
 createApp(App).use(router).mount("#app");

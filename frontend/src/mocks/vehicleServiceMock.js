@@ -1,32 +1,36 @@
 export default {
-    cost({ price, option }) {
-        if (price <= 0 || !option) {
+    cost({ basePrice, vehicleType }) {
+        if (basePrice <= 0 || !vehicleType) {
             throw new Error("Invalid input");
         }
-        const basicBuyerFeeCost = basicBuyerFee(price, option);
-        const sellerSpecialFeeCost = sellerSpecialFee(price, option);
-        const associationCostCost = associationCost(price);
+        const basicBuyerFeeCost = basicBuyerFee(basePrice, vehicleType);
+        const sellerSpecialFeeCost = sellerSpecialFee(basePrice, vehicleType);
+        const associationCostCost = associationCost(basePrice);
+
+        const totalFees =
+            basicBuyerFeeCost +
+            sellerSpecialFeeCost +
+            associationCostCost +
+            100;
 
         return {
-            option,
-            price,
-            basicBuyerFee: basicBuyerFeeCost,
-            sellerSpecialFee: sellerSpecialFeeCost,
-            associationCost: associationCostCost,
-            storageFee: 100,
-            total:
-                basicBuyerFeeCost +
-                sellerSpecialFeeCost +
-                associationCostCost +
-                100 +
-                price,
+            vehicleType,
+            basePrice,
+            fees: {
+                basicBuyerFee: basicBuyerFeeCost,
+                sellerSpecialFee: sellerSpecialFeeCost,
+                associationCost: associationCostCost,
+                storageFee: 100,
+            },
+            totalPrice: basePrice + totalFees,
+            totalFees,
         };
     },
 };
 
-const basicBuyerFee = (price, option) => {
-    let fee = price * 0.1;
-    if (option === "common") {
+const basicBuyerFee = (basePrice, vehicleType) => {
+    let fee = basePrice * 0.1;
+    if (vehicleType === "common") {
         fee = Math.min(Math.max(fee, 10), 50);
     } else {
         fee = Math.min(Math.max(fee, 25), 200);
@@ -34,18 +38,18 @@ const basicBuyerFee = (price, option) => {
     return Math.round(fee);
 };
 
-const sellerSpecialFee = (price, option) => {
-    let fee = price * (option === "common" ? 0.02 : 0.04);
+const sellerSpecialFee = (basePrice, vehicleType) => {
+    let fee = basePrice * (vehicleType === "common" ? 0.02 : 0.04);
     return Math.round(fee);
 };
 
-const associationCost = (price) => {
+const associationCost = (basePrice) => {
     let cost = 0;
-    if (price <= 500) {
+    if (basePrice <= 500) {
         cost = 5;
-    } else if (price <= 1000) {
+    } else if (basePrice <= 1000) {
         cost = 10;
-    } else if (price <= 3000) {
+    } else if (basePrice <= 3000) {
         cost = 15;
     } else {
         cost = 20;
