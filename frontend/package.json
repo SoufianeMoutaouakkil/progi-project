@@ -6,15 +6,18 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@vitejs/plugin-vue": "^5.1.5",
     "axios": "^1.7.7",
+    "vite-plugin-vuetify": "^2.0.4",
     "vue": "^3.0.4",
     "vue-router": "^4.4.5",
+    "vuetify": "^3.7.4",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.4",
     "msw": "^2.6.2",
-    "vite": "^1.0.0-rc.13"
+    "vite": "^5.4.11"
   },
   "msw": {
     "workerDirectory": [
