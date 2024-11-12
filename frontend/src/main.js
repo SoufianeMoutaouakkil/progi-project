@@ -3,7 +3,18 @@ import App from "./App.vue";
 import "./index.css";
 import router from "./router";
 
-import mockServer from "./mocks/mockServer"; // Import the mock server
+// Vuetify imports
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
+const vuetify = createVuetify({
+    components,
+    directives,
+});
+
+import mockServer from "./mocks/mockServer";
 
 const isMock =
     process.env.NODE_ENV === "development" &&
@@ -14,4 +25,4 @@ if (isMock) {
     mockServer.start();
 }
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(router).use(vuetify).mount("#app");

@@ -1,6 +1,12 @@
 <template>
     <div>
-        <h1>Calculate Vehicle Cost</h1>
+        <div style="display: flex; justify-content: flex-start">
+            <router-link to="/" style="text-decoration: none; color: inherit">
+                <v-btn class="mb-4" color="primary" variant="outlined">
+                    <
+                </v-btn>
+            </router-link>
+        </div>
         <FormComponent @on-api-res="setApiResult" />
         <ResultComponent :result="apiResult" />
     </div>
