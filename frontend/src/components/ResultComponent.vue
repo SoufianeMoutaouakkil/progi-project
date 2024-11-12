@@ -1,23 +1,84 @@
 <template>
-    <h1>Calculate Vehicle Cost</h1>
     <div v-if="result?.basePrice !== undefined">
-        <p>Base Price: {{ result.basePrice }}</p>
-        <p>Vehicle Type: {{ result.vehicleType }}</p>
-        <p>Basic buyer fee: {{ result?.fees?.basicBuyerFee }}</p>
-        <p>Seller special fee: {{ result?.fees?.sellerSpecialFee }}</p>
-        <p>Association cost: {{ result?.fees?.associationCost }}</p>
-        <p>Storage fee: {{ result?.fees?.storageFee }}</p>
-        <p>Total Price: {{ result.totalPrice }}</p>
+        <v-card class="mx-auto">
+            <v-card-title>
+                <h1>Vehicle Cost Simulator Results</h1>
+            </v-card-title>
+            <h2>Vehicle Data</h2>
+            <v-card-text>
+                <v-row>
+                    <v-col cols="12" md="6">
+                        <InfoRow
+                            label="Vehicle Base Price"
+                            :info="result?.basePrice + ' $'"
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <InfoRow
+                            label="Vehicle Type"
+                            :info="result?.vehicleType"
+                        />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" md="6">
+                        <h2>Fees details</h2>
+                        <InfoRow
+                            label="Basic Buyer Fee"
+                            :info="result?.fees?.basicBuyerFee + ' $'"
+                        />
+                        <InfoRow
+                            label="Seller Special Fee"
+                            :info="result?.fees?.sellerSpecialFee + ' $'"
+                        />
+                        <InfoRow
+                            label="Association Cost"
+                            :info="result?.fees?.associationFee + ' $'"
+                        />
+                        <InfoRow
+                            label="Storage Fee"
+                            :info="result?.fees?.storageFee + ' $'"
+                        />
+                    </v-col>
+                    <v-col>
+                        <h2>Costs details</h2>
+                        <InfoRow
+                            label="Total Fees cost"
+                            :info="result?.totalFees + ' $'"
+                        />
+                        <v-row class="mt-8">
+                            <v-col
+                                cols="6"
+                                class="text-right font-weight-bold text-uppercase text-h6"
+                            >
+                                Total Vehicle cost with fees:
+                            </v-col>
+                            <v-col
+                                cols="6"
+                                class="text-left text-h6 font-weight-bold"
+                            >
+                                {{ result?.totalPrice }} $
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 
 <script>
+import InfoRow from "../customized/data/InfoRow.vue";
+
 export default {
     props: ["result"],
     computed: {
         isResultValid() {
             return this.result && this.result.basePrice;
         },
+    },
+    components: {
+        InfoRow,
     },
 };
 </script>
