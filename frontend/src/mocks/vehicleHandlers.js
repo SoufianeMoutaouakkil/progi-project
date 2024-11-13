@@ -10,13 +10,24 @@ export default [
         const basePrice = url.searchParams.get("base_price");
         const vehicleType = url.searchParams.get("vehicle_type");
 
-        const costs = vehicleServiceMock.cost({ basePrice: Number(basePrice), vehicleType });
+        const costs = vehicleServiceMock.cost({
+            basePrice: Number(basePrice),
+            vehicleType,
+        });
 
+        /*
+        // Uncomment to test network error
         return new HttpResponse(
-            JSON.stringify(costs),
+            JSON.stringify({
+                message: "Network Error",
+            }),
             {
-                status: 200,
+                status: 500,
             }
         );
+        */
+        return new HttpResponse(JSON.stringify(costs), {
+            status: 200,
+        });
     }),
 ];

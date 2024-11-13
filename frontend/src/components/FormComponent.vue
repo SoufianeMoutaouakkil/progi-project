@@ -10,13 +10,14 @@
                 label="Base Price"
                 type="number"
                 :error-messages="basePriceError"
-                @change="onBasePriceChange"
+                id="basePrice"
             ></v-text-field>
 
             <v-select
                 v-model="vehicleType"
                 :items="vehicleTypesOptions"
                 label="Select Vehicle Type"
+                name="vehicleType"
             ></v-select>
 
             <v-btn
@@ -24,8 +25,9 @@
                 color="primary"
                 class="mr-auto"
                 :loading="loading"
-                :disabled="!isFormValid"
+                :disabled="!isValidForm"
                 variant="outlined"
+                id="submit-vehicle-data"
             >
                 Calculate Costs
             </v-btn>
@@ -36,6 +38,7 @@
             dismissible
             class="mt-5"
             variant="outlined"
+            id="vehicle-cost-api-error"
         >
             {{ apiError }}
         </v-alert>
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-import vehicleApi from "../apis/vehicle";
+import vehicleApi from "../apis/vehicleApi";
 
 const vehicleTypesOptions = [
     { title: "Common", value: "common" },
@@ -60,58 +63,71 @@ export default {
             apiError: null,
             apiResponse: null,
             vehicleTypesOptions,
+            isFirstLoad: true,
+            isValidPrice: false,
         };
     },
     computed: {
-        isValidPrice() {
-            return this.basePrice > 0;
-        },
-        isFormValid() {
-            return this.isValidPrice && this.vehicleType;
-        },
-        priceError() {
-            return !this.isValidPrice && this.basePrice !== "";
+        isValidForm() {
+            this.isValidPrice = !isNaN(this.basePrice) && this.basePrice > 0;
+            this.basePriceError =
+                !this.isValidPrice && this.basePrice !== ""
+                    ? "Invalid price"
+                    : "";
+            return this.isValidPrice && this.vehicleType !== "";
         },
     },
     watch: {
         vehicleType() {
             this.apiError = null;
-            if (this.isFormValid) {
+            if (this.isValidForm && !this.isFirstLoad) {
                 this.fetchVehicleCost();
             }
         },
         basePrice() {
-            this.basePriceError = this.priceError ? "Invalid price" : "";
+            this.isValidPrice = !isNaN(this.basePrice) && this.basePrice > 0;
+            this.basePriceError =
+                !this.isValidPrice && this.basePrice !== ""
+                    ? "Invalid Price"
+                    : "";
+            if (this.isValidForm && !this.isFirstLoad) {
+                this.fetchVehicleCost();
+            }
+        },
+        loading(val) {
+            if (val) {
+                this.apiError = null;
+            }
+            if (val && this.apiResponse) {
+                this.apiResponse = null;
+            }
+        },
+        apiResponse(val) {
+            this.$emit("on-api-res", val);
         },
     },
     methods: {
         submitForm() {
-            if (this.isFormValid) {
-                this.fetchVehicleCost();
-            }
-        },
-        onBasePriceChange() {
-            if (this.isFormValid) {
+            if (this.isValidForm) {
                 this.fetchVehicleCost();
             }
         },
         async fetchVehicleCost() {
+            this.isFirstLoad = false;
             this.loading = true;
-            this.apiError = null;
 
-            this.$emit("on-api-res", null);
+            const apiCallResponse = await vehicleApi.cost({
+                basePrice: this.basePrice,
+                vehicleType: this.vehicleType,
+            });
 
-            try {
-                this.apiResponse = await vehicleApi.cost({
-                    base_price: this.basePrice,
-                    vehicle_type: this.vehicleType,
-                });
-                this.$emit("on-api-res", this.apiResponse);
-            } catch (error) {
-                this.apiError = error?.response?.data?.message || error.message;
-            } finally {
-                this.loading = false;
+            if (apiCallResponse.isOk) {
+                this.apiResponse = apiCallResponse.data;
+            } else {
+                this.apiError = apiCallResponse.error;
             }
+
+            this.loading = false;
         },
     },
 };
