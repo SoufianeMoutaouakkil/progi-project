@@ -74,7 +74,7 @@ export default {
     props: ["result"],
     computed: {
         isResultValid() {
-            return this.result && this.result.basePrice;
+            return this.result?.basePrice !== undefined;
         },
     },
     components: {

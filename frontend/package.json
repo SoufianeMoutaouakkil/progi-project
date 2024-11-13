@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "vitest"
   },
   "dependencies": {
     "@vitejs/plugin-vue": "^5.1.5",
@@ -16,8 +17,12 @@
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.4",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^25.0.1",
     "msw": "^2.6.2",
-    "vite": "^5.4.11"
+    "resize-observer-polyfill": "^1.5.1",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.4"
   },
   "msw": {
     "workerDirectory": [
