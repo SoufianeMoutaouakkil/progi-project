@@ -16,7 +16,7 @@
             <v-select
                 v-model="vehicleType"
                 :items="vehicleTypesOptions"
-                label="Select Vehicle Type"
+                label="Vehicle Type"
                 name="vehicleType"
             ></v-select>
 
