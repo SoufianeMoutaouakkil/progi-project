@@ -5,12 +5,12 @@ export default {
         }
         const basicBuyerFeeCost = basicBuyerFee(basePrice, vehicleType);
         const sellerSpecialFeeCost = sellerSpecialFee(basePrice, vehicleType);
-        const associationCostCost = associationCost(basePrice);
+        const associationFeeCost = associationFee(basePrice);
 
         const totalFees =
             basicBuyerFeeCost +
             sellerSpecialFeeCost +
-            associationCostCost +
+            associationFeeCost +
             100;
 
         return {
@@ -19,7 +19,7 @@ export default {
             fees: {
                 basicBuyerFee: basicBuyerFeeCost,
                 sellerSpecialFee: sellerSpecialFeeCost,
-                associationCost: associationCostCost,
+                associationFee: associationFeeCost,
                 storageFee: 100,
             },
             totalPrice: basePrice + totalFees,
@@ -43,7 +43,7 @@ const sellerSpecialFee = (basePrice, vehicleType) => {
     return Math.round(fee);
 };
 
-const associationCost = (basePrice) => {
+const associationFee = (basePrice) => {
     let cost = 0;
     if (basePrice <= 500) {
         cost = 5;

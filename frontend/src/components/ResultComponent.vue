@@ -32,7 +32,7 @@
                             :info="result?.fees?.sellerSpecialFee + ' $'"
                         />
                         <InfoRow
-                            label="Association Cost"
+                            label="Association Fee"
                             :info="result?.fees?.associationFee + ' $'"
                         />
                         <InfoRow
