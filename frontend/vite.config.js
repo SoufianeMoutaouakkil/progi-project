@@ -16,6 +16,7 @@ export default defineConfig({
                 inline: ["vuetify"],
             },
         },
+        setupFiles: "./tests/vitest.setup.js",
     },
     resolve: {
         alias: {
