@@ -20,11 +20,8 @@ export default {
             });
             return { isOk: true, data: res.data };
         } catch (error) {
-            console.error({ vehiculeapierror: error });
             if (error?.response?.data?.message) {
                 return { isOk: false, error: error.response.data.message };
-            } else if (error.request) {
-                return { isOk: false, error: error.request };
             } else {
                 return { isOk: false, error: error.message };
             }
