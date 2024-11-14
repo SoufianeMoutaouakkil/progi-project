@@ -16,7 +16,7 @@
             <v-select
                 v-model="vehicleType"
                 :items="vehicleTypesOptions"
-                label="Select Vehicle Type"
+                label="Vehicle Type"
                 name="vehicleType"
             ></v-select>
 
@@ -56,8 +56,8 @@ const vehicleTypesOptions = [
 export default {
     data() {
         return {
-            basePrice: "398",
-            vehicleType: "common",
+            basePrice: "1000000",
+            vehicleType: "luxury",
             basePriceError: "",
             loading: false,
             apiError: null,
@@ -124,6 +124,7 @@ export default {
             if (apiCallResponse.isOk) {
                 this.apiResponse = apiCallResponse.data;
             } else {
+                console.error({ error: apiCallResponse.error });
                 this.apiError = apiCallResponse.error;
             }
 

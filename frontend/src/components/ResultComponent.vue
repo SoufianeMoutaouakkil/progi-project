@@ -2,7 +2,7 @@
     <div v-if="result?.basePrice !== undefined">
         <v-card class="mx-auto">
             <v-card-title>
-                <h1>Vehicle Cost Simulator Results</h1>
+                <h1 class="text-h4 font-weight-bold">Vehicle Costs Details</h1>
             </v-card-title>
             <h2>Vehicle Data</h2>
             <v-card-text>
@@ -10,7 +10,7 @@
                     <v-col cols="12" md="6">
                         <InfoRow
                             label="Vehicle Base Price"
-                            :info="result?.basePrice + ' $'"
+                            :info="formatPrice(result?.basePrice) + ' $'"
                         />
                     </v-col>
                     <v-col cols="12" md="6">
@@ -25,26 +25,33 @@
                         <h2>Fees details</h2>
                         <InfoRow
                             label="Basic Buyer Fee"
-                            :info="result?.fees?.basicBuyerFee + ' $'"
+                            :info="
+                                formatPrice(result?.fees?.basicBuyerFee) + ' $'
+                            "
                         />
                         <InfoRow
                             label="Seller Special Fee"
-                            :info="result?.fees?.sellerSpecialFee + ' $'"
+                            :info="
+                                formatPrice(result?.fees?.sellerSpecialFee) +
+                                ' $'
+                            "
                         />
                         <InfoRow
                             label="Association Fee"
-                            :info="result?.fees?.associationFee + ' $'"
+                            :info="
+                                formatPrice(result?.fees?.associationFee) + ' $'
+                            "
                         />
                         <InfoRow
                             label="Storage Fee"
-                            :info="result?.fees?.storageFee + ' $'"
+                            :info="formatPrice(result?.fees?.storageFee) + ' $'"
                         />
                     </v-col>
                     <v-col>
                         <h2>Costs details</h2>
                         <InfoRow
                             label="Total Fees cost"
-                            :info="result?.totalFees + ' $'"
+                            :info="formatPrice(result?.totalFees) + ' $'"
                         />
                         <v-row class="mt-8">
                             <v-col
@@ -57,7 +64,7 @@
                                 cols="6"
                                 class="text-left text-h6 font-weight-bold"
                             >
-                                {{ result?.totalPrice }} $
+                                {{ formatPrice(result?.totalPrice) }} $
                             </v-col>
                         </v-row>
                     </v-col>
@@ -79,6 +86,24 @@ export default {
     },
     components: {
         InfoRow,
+    },
+    methods: {
+        formatPrice(price) {
+            if (price === undefined) {
+                return "--";
+            }
+            if (isNaN(price) || parseFloat(price) < 0) {
+                return "Invalid price (" + price + ") !";
+            }
+            let integerPart = Math.floor(price);
+            let decimalPart = Math.round((price - integerPart) * 100);
+
+            return (
+                integerPart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") +
+                "." +
+                decimalPart.toString().padEnd(2, "0")
+            );
+        },
     },
 };
 </script>

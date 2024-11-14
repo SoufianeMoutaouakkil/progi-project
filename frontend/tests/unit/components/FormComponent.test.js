@@ -50,8 +50,8 @@ describe("FormComponent", () => {
         expect(vehicleTypeSelect.exists()).toBe(true);
         expect(submitButton.exists()).toBe(true);
         expect(basePriceErrors.exists()).toBe(true);
-        expect(wrapper.vm.basePrice).toBe("398");
-        expect(wrapper.vm.vehicleType).toBe("common");
+        expect(wrapper.vm.basePrice).toBe("1000000");
+        expect(wrapper.vm.vehicleType).toBe("luxury");
         expect(wrapper.vm.apiError).toBeNull();
     });
 

@@ -32,17 +32,17 @@ describe("ResultComponent", () => {
     it.only("renders correctly when result prop is provided", async () => {
         await wrapper.setProps({ result: typicalResult });
         // Vehicle Data check
-        expect(wrapper.text()).toContain("Vehicle Base Price: 10000 $");
+        expect(wrapper.text()).toContain("Vehicle Base Price: 10 000.00 $");
         expect(wrapper.text()).toContain("Vehicle Type: Luxury");
         // Fees check
-        expect(wrapper.text()).toContain("Basic Buyer Fee: 500 $");
-        expect(wrapper.text()).toContain("Seller Special Fee: 300 $");
-        expect(wrapper.text()).toContain("Association Fee: 100 $");
-        expect(wrapper.text()).toContain("Storage Fee: 200 $");
+        expect(wrapper.text()).toContain("Basic Buyer Fee: 500.00 $");
+        expect(wrapper.text()).toContain("Seller Special Fee: 300.00 $");
+        expect(wrapper.text()).toContain("Association Fee: 100.00 $");
+        expect(wrapper.text()).toContain("Storage Fee: 200.00 $");
         // Costs details check
-        expect(wrapper.text()).toContain("Total Fees cost: 1100 $");
+        expect(wrapper.text()).toContain("Total Fees cost: 1 100.00 $");
         expect(wrapper.text()).toContain(
-            "Total Vehicle cost with fees: 11100 $"
+            "Total Vehicle cost with fees: 11 100.00 $"
         );
     });
 
@@ -54,6 +54,15 @@ describe("ResultComponent", () => {
             result: { ...typicalResult, basePrice: undefined },
         });
         expect(wrapper.text()).toBe("");
+    });
+
+    it.only("displays '--' when a fee is missing", async () => {
+        const result = {
+            ...typicalResult,
+            totalFees: undefined,
+        };
+        await wrapper.setProps({ result });
+        expect(wrapper.text()).toContain("Total Fees cost: -- $");
     });
 
     it.only("computes isResultValid correctly based on result prop", async () => {

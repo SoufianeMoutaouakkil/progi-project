@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import HomeView from "@/views/HomeView.vue";
-import { router } from "../shared/test-plugin";
+import { router, vuetify } from "../shared/test-plugin";
 
 describe("HomeView", () => {
     let wrapper;
@@ -9,7 +9,7 @@ describe("HomeView", () => {
     beforeEach(() => {
         wrapper = mount(HomeView, {
             global: {
-                plugins: [router],
+                plugins: [router, vuetify],
             },
             isCustomElement: (tag) => tag === "router-link",
         });
@@ -21,9 +21,13 @@ describe("HomeView", () => {
 
     it("has a welcome message", () => {
         expect(wrapper.text()).toContain(
-            "Welcome to the Vehicle Cost Calculator"
+            "Welcome to Progi services"
+        );
+        expect(wrapper.text()).toContain(
+            "Vehicle cost simulator Service"
         );
     });
+
 
     it("has a router link to the calculator view", async () => {
         router.push("/");
